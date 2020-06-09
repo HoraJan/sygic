@@ -2,7 +2,6 @@ export enum StructureType {
   int = 'int',
   string = 'string',
   float = 'float',
-  byte = 'byte',
   utf16 = 'utf16',
 }
 
@@ -43,6 +42,7 @@ export interface StructurePoint {
   length?: number
   delimiter?: number
   add?: number
+  parseFunction: (field: StructurePoint, logEntry: SygicLogEntryInterface) => string | number
 }
 
 export interface HeaderStructurePoint extends StructurePoint {
@@ -54,20 +54,28 @@ export interface SygicPointStructurePoint extends StructurePoint {
 }
 
 export type Header = {
-  [K in NumberHeaderField]: number
+  [K in NumberHeaderField]?: number
 } &
   {
-    [K in StringHeaderField]: string
+    [K in StringHeaderField]?: string
   }
 
 export type SygicPoint = {
-  [K in SygicPointField]: number
+  [K in SygicPointField]?: number
+} & {
+  smoothedElevation?: number
+  smoothedSpeed?: number
 }
 
-export interface HeaderInterface extends Header {
-  kind: 'header'
-}
-
-export interface SygicPointInterface extends Header {
-  kind: 'sygicPoint'
+export interface SygicLogEntryInterface {
+  index: number
+  arr: number[]
+  header: Header
+  parseHeader: () => void
+  startTime: Date
+  setStartTime: () => void
+  points: SygicPoint[]
+  parsePoints: () => void
+  smoothElevation: (length?: number) => void
+  smoothSpeed: (length?: number) => void
 }
