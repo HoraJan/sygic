@@ -3,3 +3,4 @@ yarn-error.log
 *.log
 *.gpx
 lib
+.DS_Store
