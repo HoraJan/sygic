@@ -1,7 +1,7 @@
 {
-  "name": "sygic",
+  "name": "sygiclog-to-gpx-converter",
   "version": "1.0.0",
-  "description": "",
+  "description": "sygic log to GPX converter",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
