@@ -4,3 +4,4 @@ yarn-error.log
 *.gpx
 lib
 .DS_Store
+.env

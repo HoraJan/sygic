@@ -7,9 +7,7 @@ import { SygicLogEntry } from './sygic_log_entry'
 
 const { Point, Metadata } = GarminBuilder.MODELS
 
-export const parseFile = (name: string): void => {
-  const file = fs.readFileSync(`./${name}.log`)
-
+export const parseFile = (name: string, file: Buffer): string => {
   const sygicLogEntry: SygicLogEntryInterface = new SygicLogEntry(file)
   sygicLogEntry.parseHeader()
   sygicLogEntry.setStartTime()
@@ -39,4 +37,5 @@ export const parseFile = (name: string): void => {
   const gpx = buildGPX(gpxData.toObject())
 
   fs.writeFileSync(`./${name}.gpx`, gpx)
+  return gpx
 }
