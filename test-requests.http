@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8080/api
+@baseUrl = http://localhost:{{$dotenv PORT}}/api
 @fileName = 200530_122515.log
 @boundary = WebKitFormBoundary1234
 
