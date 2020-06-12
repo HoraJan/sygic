@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:8080/api
+@fileName = 200530_122515.log
+@boundary = WebKitFormBoundary1234
 
 # @name login
 POST {{baseUrl}}/login
@@ -6,20 +8,20 @@ POST {{baseUrl}}/login
 @authToken = {{login.response.body.token}}
 
 ###
-GET http://localhost:8080/api/test-login
+GET {{baseUrl}}/test-login
 Authorization: Bearer {{authToken}}
 
 ###
-POST http://localhost:8080/api/upload
+POST {{baseUrl}}/upload
 Authorization: Bearer {{authToken}}
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Type: multipart/form-data; boundary=----{{boundary}}
 
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="200530_122515.log"
+------{{boundary}}
+Content-Disposition: form-data; name="image"; filename="{{fileName}}"
 Content-Type: application/octet-stream
 
-< 200530_122515.log
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+< {{fileName}}
+------{{boundary}}--
 
 
 
