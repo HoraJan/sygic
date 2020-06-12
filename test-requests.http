@@ -1,12 +1,17 @@
-POST http://localhost:8080/api/login
+@baseUrl = http://localhost:8080/api
+
+# @name login
+POST {{baseUrl}}/login
+
+@authToken = {{login.response.body.token}}
 
 ###
 GET http://localhost:8080/api/test-login
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTE5NTUwMzYsImV4cCI6MTU5MTk1NjgzNn0.vUJusc5rl6X_v1C8z9XvmaN8UNS0HzMOsEur7oC_GMQ
+Authorization: Bearer {{authToken}}
 
 ###
 POST http://localhost:8080/api/upload
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTE5NTUwMzYsImV4cCI6MTU5MTk1NjgzNn0.vUJusc5rl6X_v1C8z9XvmaN8UNS0HzMOsEur7oC_GMQ
+Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW

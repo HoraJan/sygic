@@ -6,7 +6,7 @@ import { parseFile } from './sygic-parser/parse_file'
 export const router = (app: express.Application) => {
   app.post('/api/login', (req, res) => {
     const token = generateAccessToken({ username: req.body.username })
-    res.json(token)
+    res.json({ token: token })
   })
 
   app.get('/api/test-login', authenticateToken, (req, res) => {
