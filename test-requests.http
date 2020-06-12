@@ -1,0 +1,21 @@
+POST http://localhost:8080/api/login
+
+###
+GET http://localhost:8080/api/test-login
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTE5NTUwMzYsImV4cCI6MTU5MTk1NjgzNn0.vUJusc5rl6X_v1C8z9XvmaN8UNS0HzMOsEur7oC_GMQ
+
+###
+POST http://localhost:8080/api/upload
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTE5NTUwMzYsImV4cCI6MTU5MTk1NjgzNn0.vUJusc5rl6X_v1C8z9XvmaN8UNS0HzMOsEur7oC_GMQ
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="200530_122515.log"
+Content-Type: application/octet-stream
+
+< 200530_122515.log
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+
+
