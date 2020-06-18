@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:{{$dotenv PORT}}/api
-@fileName = 200530_122515.log
+@fileName = 200607_133442.log
 @boundary = WebKitFormBoundary1234
 
 # @name login
@@ -17,7 +17,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=----{{boundary}}
 
 ------{{boundary}}
-Content-Disposition: form-data; name="image"; filename="{{fileName}}"
+Content-Disposition: form-data; name="file"; filename="{{fileName}}"
 Content-Type: application/octet-stream
 
 < {{fileName}}

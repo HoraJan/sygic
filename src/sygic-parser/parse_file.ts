@@ -4,8 +4,10 @@ import { buildGPX, GarminBuilder } from 'gpx-builder'
 import GarminPoint from 'gpx-builder/dist/builder/GarminBuilder/models/GarminPoint'
 import { SygicLogEntryInterface } from './types'
 import { SygicLogEntry } from './sygic_log_entry'
+import * as simplifier from 'simplify-geometry'
 
 const { Point, Metadata } = GarminBuilder.MODELS
+const TOLERANCE = 0.00011
 
 export const parseFile = (name: string, file: Buffer): string => {
   const sygicLogEntry: SygicLogEntryInterface = new SygicLogEntry(file)
@@ -17,8 +19,20 @@ export const parseFile = (name: string, file: Buffer): string => {
   console.log(sygicLogEntry.header)
   console.log(sygicLogEntry.points[0])
 
+  const simplified = simplifier(
+    sygicLogEntry.points.map((point) => [point.lat ?? 0, point.lon ?? 0]),
+    TOLERANCE
+  )
+
+  const simplifiedPoints = simplified
+    .map((point) => {
+      const [lat, lon] = point
+      return sygicLogEntry.points.filter((orig) => orig.lat === lat && orig.lon === lon)[0]
+    })
+    .filter(Boolean)
+
   const gpxData = new GarminBuilder()
-  const gpxPoints: GarminPoint[] = sygicLogEntry.points.map(
+  const gpxPoints: GarminPoint[] = simplifiedPoints.map(
     (point) =>
       new Point(point.lat ?? 0, point.lon ?? 0, {
         ele: point.smoothedElevation ?? point.elevation,
@@ -26,6 +40,7 @@ export const parseFile = (name: string, file: Buffer): string => {
         speed: point.smoothedSpeed ?? point.speed,
       })
   )
+
   const meta = new Metadata({
     name: sygicLogEntry.header.startDescription + ' - ' + sygicLogEntry.header.endDescription,
     time: sygicLogEntry.startTime,

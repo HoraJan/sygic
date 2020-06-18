@@ -20,6 +20,7 @@
     "gpx-builder": "^3.2.0",
     "jsonwebtoken": "^8.5.1",
     "moving-averages": "^4.0.5",
+    "simplify-geometry": "^0.0.2",
     "tsc": "^1.20150623.0",
     "typescript": "^3.9.5"
   },
