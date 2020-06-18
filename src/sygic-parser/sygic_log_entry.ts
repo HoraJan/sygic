@@ -2,12 +2,16 @@ import { SygicLogEntryInterface, Header, SygicPoint } from './types'
 import { headerStructure } from './utils/header_structure'
 import { pointStructure } from './utils/point_structure'
 import { ma } from 'moving-averages'
+import * as simplifier from 'simplify-geometry'
+
+const TOLERANCE = 0.00011
 
 export class SygicLogEntry implements SygicLogEntryInterface {
   arr: number[]
   index: number = 0
   header: Header = {}
   points: SygicPoint[] = []
+  simplifiedPoints: SygicPoint[] = []
   startTime: Date = new Date()
 
   constructor(fileBuffer: Buffer) {
@@ -59,5 +63,19 @@ export class SygicLogEntry implements SygicLogEntryInterface {
     this.points.forEach((point, index) => {
       point.smoothedSpeed = speed[index]
     })
+  }
+
+  simplify(tolerance = TOLERANCE) {
+    const simplified = simplifier(
+      this.points.map((point) => [point.lat ?? 0, point.lon ?? 0]),
+      tolerance
+    )
+
+    this.simplifiedPoints = simplified
+      .map((point) => {
+        const [lat, lon] = point
+        return this.points.filter((orig) => orig.lat === lat && orig.lon === lon)[0]
+      })
+      .filter(Boolean)
   }
 }

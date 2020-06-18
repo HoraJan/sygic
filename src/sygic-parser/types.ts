@@ -72,10 +72,12 @@ export interface SygicLogEntryInterface {
   arr: number[]
   header: Header
   points: SygicPoint[]
+  simplifiedPoints: SygicPoint[]
   startTime: Date
   parseHeader: () => void
   setStartTime: () => void
   parsePoints: () => void
   smoothElevation: (length?: number) => void
   smoothSpeed: (length?: number) => void
+  simplify: (toelrance?: number) => void
 }

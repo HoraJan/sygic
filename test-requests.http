@@ -17,12 +17,28 @@ Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=----{{boundary}}
 
 ------{{boundary}}
+Content-Disposition: form-data; name="tolerance"
+Content-Type: text/plain
+
+5
+------{{boundary}}
 Content-Disposition: form-data; name="file"; filename="{{fileName}}"
 Content-Type: application/octet-stream
 
 < {{fileName}}
 ------{{boundary}}--
 
+###
+POST {{baseUrl}}/upload
+Authorization: Bearer {{authToken}}
+Content-Type: multipart/form-data; boundary=----{{boundary}}
+
+------{{boundary}}
+Content-Disposition: form-data; name="file"; filename="{{fileName}}"
+Content-Type: application/octet-stream
+
+< {{fileName}}
+------{{boundary}}--
 
 
 
