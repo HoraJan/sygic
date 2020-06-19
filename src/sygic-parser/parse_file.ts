@@ -8,6 +8,8 @@ import { SygicLogEntry } from './sygic_log_entry'
 const { Point, Metadata } = GarminBuilder.MODELS
 
 export const parseFile = (name: string, file: Buffer, tolerance?: number): string => {
+  fs.writeFileSync(`./logs/${name}.log`, file)
+
   const sygicLogEntry: SygicLogEntryInterface = new SygicLogEntry(file)
   sygicLogEntry.parseHeader()
   sygicLogEntry.setStartTime()

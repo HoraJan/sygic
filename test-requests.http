@@ -20,7 +20,7 @@ Content-Type: multipart/form-data; boundary=----{{boundary}}
 Content-Disposition: form-data; name="tolerance"
 Content-Type: text/plain
 
-5
+3
 ------{{boundary}}
 Content-Disposition: form-data; name="file"; filename="{{fileName}}"
 Content-Type: application/octet-stream

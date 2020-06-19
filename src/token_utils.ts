@@ -16,7 +16,7 @@ export const authenticateToken = (req: Req, res: express.Response, next: express
   const authHeader = req.headers['authorization']
   const [, token] = authHeader?.split(' ') ?? []
 
-  if (token == null) {
+  if (!token) {
     res.sendStatus(401)
     return
   }
