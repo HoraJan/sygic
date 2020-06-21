@@ -4,8 +4,6 @@ import { pointStructure } from './utils/point_structure'
 import { ma } from 'moving-averages'
 import * as simplifier from 'simplify-geometry'
 
-const TOLERANCE = 0.00011
-
 export class SygicLogEntry implements SygicLogEntryInterface {
   arr: number[]
   index: number = 0
@@ -65,7 +63,7 @@ export class SygicLogEntry implements SygicLogEntryInterface {
     })
   }
 
-  simplify(tolerance = TOLERANCE) {
+  simplify(tolerance: number) {
     const simplified = simplifier(
       this.points.map((point) => [point.lat ?? 0, point.lon ?? 0]),
       tolerance

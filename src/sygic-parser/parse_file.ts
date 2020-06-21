@@ -7,26 +7,30 @@ import { SygicLogEntry } from './sygic_log_entry'
 
 const { Point, Metadata } = GarminBuilder.MODELS
 
-export const parseFile = (name: string, file: Buffer, tolerance?: number): string => {
+export const parseFile = (name: string, file: Buffer, cleaningFactor?: number): string => {
   fs.writeFileSync(`./logs/${name}.log`, file)
 
   const sygicLogEntry: SygicLogEntryInterface = new SygicLogEntry(file)
   sygicLogEntry.parseHeader()
   sygicLogEntry.setStartTime()
   sygicLogEntry.parsePoints()
-  sygicLogEntry.simplify(tolerance)
 
-  console.log(sygicLogEntry.arr)
+  if (cleaningFactor) sygicLogEntry.simplify(cleaningFactor)
+
+  sygicLogEntry.smoothElevation()
+  sygicLogEntry.smoothSpeed()
+
   console.log(sygicLogEntry.header)
-  console.log(sygicLogEntry.points[0])
   console.log(
     sygicLogEntry.points.length,
-    ` -> by (${tolerance}) `,
+    ` -> by (${cleaningFactor}) `,
     sygicLogEntry.simplifiedPoints.length
   )
 
+  const points = cleaningFactor ? sygicLogEntry.simplifiedPoints : sygicLogEntry.points
+
   const gpxData = new GarminBuilder()
-  const gpxPoints: GarminPoint[] = sygicLogEntry.simplifiedPoints.map(
+  const gpxPoints: GarminPoint[] = points.map(
     (point) =>
       new Point(point.lat ?? 0, point.lon ?? 0, {
         ele: point.smoothedElevation ?? point.elevation,

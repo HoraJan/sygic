@@ -17,7 +17,7 @@ Authorization: Bearer {{authToken}}
 Content-Type: multipart/form-data; boundary=----{{boundary}}
 
 ------{{boundary}}
-Content-Disposition: form-data; name="tolerance"
+Content-Disposition: form-data; name="cleaning-factor"
 Content-Type: text/plain
 
 3

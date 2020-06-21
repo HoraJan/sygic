@@ -31,10 +31,10 @@ export const router = (app: express.Application) => {
 
     const [fileName] = file.name?.split('.')
     const fileContent = file.data
-    const tolerance = req.body.tolerance
-      ? Math.pow(Number(req.body.tolerance), 2) * 0.0000011
+    const cleaningFactor = req.body['cleaning-factor']
+      ? Math.pow(Number(req.body['cleaning-factor']), 2) * 0.0000011
       : undefined
-    const gpx = parseFile(fileName, fileContent, tolerance)
+    const gpx = parseFile(fileName, fileContent, cleaningFactor)
 
     res.send(gpx)
   })

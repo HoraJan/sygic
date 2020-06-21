@@ -79,5 +79,5 @@ export interface SygicLogEntryInterface {
   parsePoints: () => void
   smoothElevation: (length?: number) => void
   smoothSpeed: (length?: number) => void
-  simplify: (toelrance?: number) => void
+  simplify: (cleaningFactor: number) => void
 }
