@@ -3,9 +3,9 @@ import Head from 'next/head'
 import fetch from 'unfetch'
 import Login from './login'
 import Upload from './upload'
-import { checkLogin, loginSubject } from './html-service'
+import { checkLogin, loginSubject } from '../utils/html-service'
 import { tap, mergeMap } from 'rxjs/operators'
-import { TITLE, LINKS } from './constants'
+import { TITLE, LINKS } from '../utils/constants'
 import Loading from './loading'
 var FileSaver = require('file-saver')
 

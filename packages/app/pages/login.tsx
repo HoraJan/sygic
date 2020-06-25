@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormProps } from './types'
+import { FormProps } from '../utils/types'
 
 export default function Login(props: FormProps) {
   return (
