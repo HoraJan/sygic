@@ -1,13 +1,20 @@
 import fs = require('fs')
 import { buildGPX, GarminBuilder } from 'gpx-builder'
 
-import GarminPoint from 'gpx-builder/dist/builder/GarminBuilder/models/GarminPoint'
+// import { GarminPoint, Person } from 'gpx-builder'
 import { SygicLogEntryInterface } from './types'
 import { SygicLogEntry } from './sygic_log_entry'
+import GarminPoint from 'gpx-builder/dist/builder/GarminBuilder/models/GarminPoint'
+import { Person } from 'gpx-builder/dist/builder/BaseBuilder/models'
 
 const { Point, Metadata } = GarminBuilder.MODELS
 
-export const parseFile = (name: string, file: Buffer, cleaningFactor?: number): string => {
+export const parseFile = (
+  name: string,
+  file: Buffer,
+  cleaningFactor?: number,
+  author?: string
+): string => {
   fs.writeFileSync(`./logs/${name}.log`, file)
 
   const sygicLogEntry: SygicLogEntryInterface = new SygicLogEntry(file)
@@ -42,6 +49,8 @@ export const parseFile = (name: string, file: Buffer, cleaningFactor?: number): 
   const meta = new Metadata({
     name: sygicLogEntry.header.startDescription + ' - ' + sygicLogEntry.header.endDescription,
     time: sygicLogEntry.startTime,
+    desc: `${(sygicLogEntry.header.distance ?? 0) / 1000} km drive`,
+    author: new Person({ name: author }),
   })
 
   gpxData.setMetadata(meta)

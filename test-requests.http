@@ -2,8 +2,20 @@
 @fileName = 200607_133442.log
 @boundary = WebKitFormBoundary1234
 
+POST {{baseUrl}}/login
+
+###
+
 # @name login
 POST {{baseUrl}}/login
+Content-Type: multipart/form-data; boundary=----{{boundary}}
+
+------{{boundary}}
+Content-Disposition: form-data; name="username"
+Content-Type: text/plain
+
+hoho107@gmail.com
+------{{boundary}}--
 
 @authToken = {{login.response.body.token}}
 

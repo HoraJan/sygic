@@ -26,6 +26,7 @@ export const authenticateToken = (req: Req, res: express.Response, next: express
     req.user = user
     next()
   } catch (err) {
+    console.log(token, err)
     res.sendStatus(403)
   }
 }
