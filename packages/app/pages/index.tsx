@@ -3,12 +3,11 @@ import Head from 'next/head'
 import fetch from 'unfetch'
 import Login from './login'
 import Upload from './upload'
-import { checkLogin, loginSubject } from '../utils/html-service'
+import { checkLogin, loginSubject, uploadFile, uploadSubject } from '../utils/html-service'
 import { tap, mergeMap } from 'rxjs/operators'
 import { TITLE, LINKS } from '../utils/constants'
 import Loading from './loading'
 import { GetServerSideProps } from 'next'
-var FileSaver = require('file-saver')
 
 export const getServerSideProps: GetServerSideProps<AppProps> = async () => {
   require('dotenv').config()
@@ -28,6 +27,7 @@ export default function App(props: AppProps) {
   const [loading, setLoading] = useState<boolean>(true)
   const [login, setLogin] = useState<boolean>(false)
   let $checkLoginSubject = loginSubject()
+  let $uploadSubject = uploadSubject()
 
   $checkLoginSubject
     .pipe(
@@ -39,6 +39,20 @@ export default function App(props: AppProps) {
       tap(() => setLoading(false))
     )
     .subscribe()
+
+  $uploadSubject
+    .pipe(
+      mergeMap((res) => res),
+      tap((r) => console.log(r))
+    )
+    .subscribe()
+
+  useEffect(() => {
+    return () => {
+      $checkLoginSubject.unsubscribe()
+      $uploadSubject.unsubscribe()
+    }
+  })
 
   useEffect(() => {
     const cookieToken = document?.cookie.split('token=')[1]
@@ -67,18 +81,20 @@ export default function App(props: AppProps) {
 
   const fileUpload = (e: FormEvent<HTMLFormElement>) => {
     const cookieToken = document?.cookie.split('token=')[1]
-    $checkLoginSubject.next(checkLogin(props.url, cookieToken))
-    fetch(`${props.url}/api/upload`, {
-      method: 'POST',
-      body: new FormData(e.currentTarget),
-      headers: { 'Access-Control-Allow-Origin': '*', Authorization: 'Bearer ' + token },
-    })
-      .then((r) => r.text())
-      .then((r) => {
-        console.log(r.length)
-        var blob = new Blob([r], { type: 'application/gpx;charset=utf-8' })
-        FileSaver.saveAs(blob, 'converted.gpx')
-      })
+    const formData = new FormData(e.currentTarget)
+    console.log(formData)
+
+    $checkLoginSubject.next(
+      checkLogin(props.url, cookieToken).pipe(
+        tap((r) => {
+          console.log(r, e.currentTarget)
+          if (r.login === 'ok') {
+            $uploadSubject.next(uploadFile(props.url, formData, token))
+          }
+        })
+      )
+    )
+
     e.preventDefault()
   }
 

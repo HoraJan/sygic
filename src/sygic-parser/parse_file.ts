@@ -1,5 +1,5 @@
 import fs = require('fs')
-import { buildGPX, GarminBuilder } from 'gpx-builder'
+import { GarminBuilder } from 'gpx-builder'
 
 // import { GarminPoint, Person } from 'gpx-builder'
 import { SygicLogEntryInterface } from './types'
@@ -14,7 +14,7 @@ export const parseFile = (
   file: Buffer,
   cleaningFactor?: number,
   author?: string
-): string => {
+): { meta: any; gpxPoints: GarminPoint[] } => {
   fs.writeFileSync(`./logs/${name}.log`, file)
 
   const sygicLogEntry: SygicLogEntryInterface = new SygicLogEntry(file)
@@ -36,7 +36,6 @@ export const parseFile = (
 
   const points = cleaningFactor ? sygicLogEntry.simplifiedPoints : sygicLogEntry.points
 
-  const gpxData = new GarminBuilder()
   const gpxPoints: GarminPoint[] = points.map(
     (point) =>
       new Point(point.lat ?? 0, point.lon ?? 0, {
@@ -53,11 +52,11 @@ export const parseFile = (
     author: new Person({ name: author }),
   })
 
-  gpxData.setMetadata(meta)
-  gpxData.setSegmentPoints(gpxPoints)
+  // const segment = new Segment(gpxPoints)
+  // const track = new Track([segment])
+  // gpxData.setTracks([track])
 
-  const gpx = buildGPX(gpxData.toObject())
+  // const gpx = buildGPX(gpxData.toObject())
 
-  fs.writeFileSync(`./${name}.gpx`, gpx)
-  return gpx
+  return { meta, gpxPoints }
 }

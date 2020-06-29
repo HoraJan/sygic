@@ -1,6 +1,7 @@
 import { ajax } from 'rxjs/ajax'
-import { catchError, map } from 'rxjs/operators'
+import { catchError, map, tap } from 'rxjs/operators'
 import { of, Subject, Observable } from 'rxjs'
+import FileSaver from 'file-saver'
 
 export interface LoginObject {
   login?: string
@@ -9,7 +10,6 @@ export interface LoginObject {
 }
 
 export const checkLogin = (url: string, token: string): Observable<LoginObject> => {
-  console.log(token)
   return ajax({
     url: `${url}/api/test-login`,
     headers: { 'Access-Control-Allow-Origin': '*', Authorization: 'Bearer ' + token },
@@ -26,6 +26,37 @@ export const checkLogin = (url: string, token: string): Observable<LoginObject> 
   )
 }
 
+export const uploadFile = (url: string, formData: FormData, token: string): Observable<any> => {
+  console.log(formData)
+  return ajax({
+    url: `${url}/api/upload`,
+    method: 'POST',
+    body: formData,
+    headers: { 'Access-Control-Allow-Origin': '*', Authorization: 'Bearer ' + token },
+  }).pipe(
+    map((response) => {
+      console.log(response)
+      if (response.status === 200) {
+        return response.response
+      }
+      throw new Error(JSON.stringify(response))
+    }),
+    tap((response) => {
+      console.log(response)
+      if (response.length < 1) return
+      var blob = new Blob([response.gpx], { type: 'application/gpx;charset=utf-8' })
+      FileSaver.saveAs(blob, `${response.name}.gpx`)
+    }),
+    catchError((error: Error) => {
+      return of({ error: true, message: error.message } as LoginObject)
+    })
+  )
+}
+
 export const loginSubject = () => {
   return new Subject<Observable<LoginObject>>()
+}
+
+export const uploadSubject = () => {
+  return new Subject<Observable<any>>()
 }
