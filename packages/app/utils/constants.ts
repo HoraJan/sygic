@@ -13,3 +13,4 @@ export const LINKS = [
   },
   { rel: 'icon', href: '/favicon.ico' },
 ]
+export const API_URL = 'http://api.hoho107.tk'

@@ -1,8 +1,6 @@
-import { ajax, AjaxResponse } from 'rxjs/ajax'
-import { catchError, mergeMap, map } from 'rxjs/operators'
+import { ajax } from 'rxjs/ajax'
+import { catchError, map } from 'rxjs/operators'
 import { of, Subject, Observable } from 'rxjs'
-
-const CHECK_LOGIN_URL = 'http://localhost:8080/api/test-login'
 
 export interface LoginObject {
   login?: string
@@ -10,10 +8,10 @@ export interface LoginObject {
   message?: string
 }
 
-export const checkLogin = (token: string): Observable<LoginObject> => {
+export const checkLogin = (url: string, token: string): Observable<LoginObject> => {
   console.log(token)
   return ajax({
-    url: CHECK_LOGIN_URL,
+    url: `${url}/api/test-login`,
     headers: { 'Access-Control-Allow-Origin': '*', Authorization: 'Bearer ' + token },
   }).pipe(
     map((response) => {

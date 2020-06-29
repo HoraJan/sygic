@@ -7,9 +7,23 @@ import { checkLogin, loginSubject } from '../utils/html-service'
 import { tap, mergeMap } from 'rxjs/operators'
 import { TITLE, LINKS } from '../utils/constants'
 import Loading from './loading'
+import { GetServerSideProps } from 'next'
 var FileSaver = require('file-saver')
 
-export default function App() {
+export const getServerSideProps: GetServerSideProps<AppProps> = async () => {
+  require('dotenv').config()
+
+  const pageProps: AppProps = {
+    url: process.env.NEXT_PUBLIC_API_URL ?? '',
+  }
+  return { props: pageProps }
+}
+
+interface AppProps {
+  url: string
+}
+
+export default function App(props: AppProps) {
   const [token, setToken] = useState<string>()
   const [loading, setLoading] = useState<boolean>(true)
   const [login, setLogin] = useState<boolean>(false)
@@ -30,13 +44,13 @@ export default function App() {
     const cookieToken = document?.cookie.split('token=')[1]
     if (!token) setToken(cookieToken)
 
-    $checkLoginSubject.next(checkLogin(cookieToken))
+    $checkLoginSubject.next(checkLogin(props.url, cookieToken))
 
     if (!cookieToken) setLoading(false)
   }, [])
 
   const loginSubmit = (e: FormEvent<HTMLFormElement>) => {
-    fetch('http://localhost:8080/api/login', {
+    fetch(`${props.url}/api/login`, {
       method: 'POST',
       body: new FormData(e.currentTarget),
     })
@@ -45,7 +59,7 @@ export default function App() {
         if (r.token) {
           document.cookie = 'token=' + r.token + '; path=/'
           setToken(r.token)
-          $checkLoginSubject.next(checkLogin(r.token))
+          $checkLoginSubject.next(checkLogin(props.url, r.token))
         }
       })
     e.preventDefault()
@@ -53,8 +67,8 @@ export default function App() {
 
   const fileUpload = (e: FormEvent<HTMLFormElement>) => {
     const cookieToken = document?.cookie.split('token=')[1]
-    $checkLoginSubject.next(checkLogin(cookieToken))
-    fetch('http://localhost:8080/api/upload', {
+    $checkLoginSubject.next(checkLogin(props.url, cookieToken))
+    fetch(`${props.url}/api/upload`, {
       method: 'POST',
       body: new FormData(e.currentTarget),
       headers: { 'Access-Control-Allow-Origin': '*', Authorization: 'Bearer ' + token },
@@ -72,8 +86,8 @@ export default function App() {
     <div className="container">
       <Head>
         <title>{TITLE}</title>
-        {LINKS.map((link) => (
-          <link {...link} />
+        {LINKS.map((link, key) => (
+          <link {...link} key={key} />
         ))}
       </Head>
 
