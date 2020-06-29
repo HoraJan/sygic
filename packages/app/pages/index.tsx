@@ -76,7 +76,7 @@ export default function App(props: AppProps) {
       .then((r) => r.text())
       .then((r) => {
         console.log(r.length)
-        var blob = new Blob([r], { type: 'application/xml;charset=utf-8' })
+        var blob = new Blob([r], { type: 'application/gpx;charset=utf-8' })
         FileSaver.saveAs(blob, 'converted.gpx')
       })
     e.preventDefault()
