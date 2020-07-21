@@ -40,13 +40,15 @@ export const router = (app: express.Application) => {
 
     console.log(files)
 
-    const [key] = Object.keys(files)
-    let filesArray: UploadedFile[]
-    const subObject = files[key] as any
-    if (subObject.length) {
-      filesArray = subObject
-    } else {
-      filesArray = [subObject]
+    const keys = Object.keys(files)
+    let filesArray: UploadedFile[] = []
+    for (let key of keys) {
+      const subObject = files[key] as any
+      if (subObject.length) {
+        filesArray = [...filesArray, ...subObject]
+      } else {
+        filesArray.push(subObject)
+      }
     }
 
     const cleaningFactor = req.body['cleaning-factor']
