@@ -82,12 +82,10 @@ export default function App(props: AppProps) {
   const fileUpload = (e: FormEvent<HTMLFormElement>) => {
     const cookieToken = document?.cookie.split('token=')[1]
     const formData = new FormData(e.currentTarget)
-    console.log(formData)
 
     $checkLoginSubject.next(
       checkLogin(props.url, cookieToken).pipe(
         tap((r) => {
-          console.log(r, e.currentTarget)
           if (r.login === 'ok') {
             $uploadSubject.next(uploadFile(props.url, formData, token))
           }

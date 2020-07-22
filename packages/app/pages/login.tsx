@@ -5,7 +5,7 @@ export default function Login(props: FormProps) {
   return (
     <>
       <h1 className="title">Welcome to Sygic converter</h1>
-      <form onSubmit={props.formSubmit}>
+      <form onSubmit={props.formSubmit} style={{ display: 'flex', flexFlow: 'column' }}>
         <div className="form-group">
           <label htmlFor="username" className="bmd-label-floating">
             Email address
