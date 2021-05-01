@@ -1,30 +1,27 @@
 {
-    "name": "sygiclog-to-gpx-converter-app",
-    "version": "1.0.0",
-    "description": "App for sygic log to GPX converter",
-    "main": "index.js",
-    "scripts": {
-        "dev": "next dev -p 8088",
-        "build": "next build",
-        "start": "next start -p 8088"
-      },
-      "dependencies": {
-        "file-saver": "^2.0.1",
-        "next": "9.4.0",
-        "react": "16.13.1",
-        "react-dom": "16.13.1",
-        "rxjs": "^6.5.5",
-        "unfetch":"^4.1.0",
-        "dotenv": "^8.2.0"
-      },
-      "devDependencies": {
-
-    "@types/node": "^14.0.11",
-    "@types/react": "^16.9.38",
-    "@types/file-saver": "^2.0.1"
-      },
-    
-    "author": "",
-    "license": "ISC"
-  }
-  
+  "name": "sygiclog-to-gpx-converter-app",
+  "version": "1.0.0",
+  "description": "App for sygic log to GPX converter",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev -p 8088",
+    "build": "next build",
+    "start": "next start -p 8088"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "file-saver": "^2.0.5",
+    "next": "10.2.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "rxjs": "^7.0.0",
+    "unfetch": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.2",
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.4"
+  },
+  "author": "",
+  "license": "ISC"
+}
