@@ -14,7 +14,7 @@ export const checkLogin = (url: string, token: string): Observable<LoginObject> 
     url: `${url}/api/test-login`,
     headers: { 'Access-Control-Allow-Origin': '*', Authorization: 'Bearer ' + token },
   }).pipe(
-    map((response) => {
+    map((response: any) => {
       if (response.status === 200) {
         return { login: response.response.login.toString() } as LoginObject
       }
@@ -41,7 +41,7 @@ export const uploadFile = (url: string, formData: FormData, token: string): Obse
       }
       throw new Error(JSON.stringify(response))
     }),
-    tap((response) => {
+    tap((response: any) => {
       console.log(response)
       if (response.length < 1) return
       var blob = new Blob([response.gpx], { type: 'application/gpx;charset=utf-8' })
