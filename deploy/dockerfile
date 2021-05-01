@@ -1,7 +1,7 @@
 FROM node:12
 WORKDIR /app
 COPY . .
-RUN yarn && yarn install && yarn build && cd ./packages/app && yarn && yarn install && yarn build
+RUN yarn && yarn build && cd ./packages/app && yarn && yarn build
 
 EXPOSE 8080
 EXPOSE 8088
