@@ -23,7 +23,7 @@ export class SygicLogEntry implements SygicLogEntryInterface {
   }
 
   setStartTime() {
-    const startTimeString = this.header.startTime ?? name
+    const startTimeString = this.header.startTime ?? this.startTime.toISOString()
     this.startTime.setFullYear(2000 + parseInt(startTimeString.slice(0, 2), 10))
     this.startTime.setMonth(parseInt(startTimeString.slice(2, 4), 10) - 1)
     this.startTime.setDate(parseInt(startTimeString.slice(4, 6), 10))
