@@ -1,7 +1,10 @@
 FROM node:12
 WORKDIR /app
+COPY package.json yarn.lock ./
+COPY packages/app/package.json packages/app/yarn.lock ./packages/app/
+RUN yarn && cd ./packages/app && yarn
 COPY . .
-RUN yarn && yarn build && cd ./packages/app && yarn && yarn build
+RUN yarn build && cd ./packages/app && yarn build
 
 EXPOSE 8080
 EXPOSE 8088

@@ -1,2 +1,14 @@
 /logs
 *.gpx
+/lib
+node_modules
+.next
+.dockerignore
+.git
+.gitignore
+.env
+.editorconfig
+.env-example
+.prettierrc
+README.md
+test-requests.http

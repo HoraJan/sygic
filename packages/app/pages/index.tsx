@@ -55,7 +55,7 @@ export default function App(props: AppProps) {
   })
 
   useEffect(() => {
-    const cookieToken = document?.cookie.split('token=')[1]
+    const [, cookieToken] = document?.cookie.split('token=')
     if (!token) setToken(cookieToken)
 
     $checkLoginSubject.next(checkLogin(props.url, cookieToken))
@@ -80,7 +80,7 @@ export default function App(props: AppProps) {
   }
 
   const fileUpload = (e: FormEvent<HTMLFormElement>) => {
-    const cookieToken = document?.cookie.split('token=')[1]
+    const [, cookieToken] = document?.cookie.split('token=')
     const formData = new FormData(e.currentTarget)
 
     $checkLoginSubject.next(
@@ -100,8 +100,8 @@ export default function App(props: AppProps) {
     <div className="container">
       <Head>
         <title>{TITLE}</title>
-        {LINKS.map((link, key) => (
-          <link {...link} key={key} />
+        {LINKS.map((link) => (
+          <link {...link} key={link.href} />
         ))}
       </Head>
 

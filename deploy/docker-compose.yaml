@@ -1,0 +1,11 @@
+version: "3"
+services:
+    sygic:
+        build: "./deploy/"
+        ports:
+            - "8080:8080"
+            - "8088:8088"
+        volumes:
+            - "./logs:/app/logs"
+        env_file:
+            - ./.env
