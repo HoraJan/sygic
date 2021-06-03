@@ -37,6 +37,15 @@ export class SygicLogEntry implements SygicLogEntryInterface {
     const pointsNum = this.header.pointCount ?? 0
 
     for (let i = 0; i < pointsNum; i++) {
+      console.log(
+        this.arr
+          .slice(this.index + i * 25, this.index + i * 25 + 25)
+          .map((num) => ('0' + num.toString(16)).slice(-2))
+          .join(',')
+      )
+    }
+
+    for (let i = 0; i < pointsNum; i++) {
       const point = {} as SygicPoint
       pointStructure.forEach((field) => {
         point[field.name] = field.parseFunction(field, this) as any

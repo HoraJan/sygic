@@ -32,7 +32,13 @@ export const parseString = (field: StructurePoint, logEntry: SygicLogEntryInterf
 
 export const parseInt = (field: StructurePoint, logEntry: SygicLogEntryInterface): number => {
   const { add = 0, delimiter = 1, length = 0 } = field
-  return groupBytes(getValueArr(logEntry, length)) / delimiter + add
+  const raw = getValueArr(logEntry, length)
+  // console.log(
+  //   raw,
+  //   raw.map((num) => num.toString(16)),
+  //   groupBytes(raw)
+  // )
+  return groupBytes(raw) / delimiter + add
 }
 
 export const parseFloat = (field: StructurePoint, logEntry: SygicLogEntryInterface): number => {
@@ -40,13 +46,21 @@ export const parseFloat = (field: StructurePoint, logEntry: SygicLogEntryInterfa
   const buf = new ArrayBuffer(4)
   const view = new DataView(buf)
 
-  getValueArr(logEntry, length)
-    .reverse()
-    .forEach((b, i) => {
-      view.setUint8(i, b)
-    })
+  const raw = getValueArr(logEntry, length)
+
+  const reversed = [...raw].reverse()
+
+  reversed.forEach((b, i) => {
+    view.setUint8(i, b)
+  })
 
   const num = view.getFloat32(0)
 
+  // console.log(
+  //   raw,
+  //   raw.map((num) => num.toString(16)),
+  //   groupBytes(raw),
+  //   num
+  // )
   return num / delimiter + add
 }
